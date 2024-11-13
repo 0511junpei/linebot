@@ -53,13 +53,15 @@ def handle_message(event):
         line_bot_api = MessagingApi(api_client)
     
     received_message = event.message.text
+    received_image_id = event.message.id
 
 	## APIを呼んで送信者のプロフィール取得
-    profile = line_bot_api.get_profile(event.source.user_id)
-    display_name = profile.display_name
+    # profile = line_bot_api.get_profile(event.source.user_id)
+    # display_name = profile.display_name
 
 	## 返信メッセージ編集
-    reply = f'{display_name}さんのメッセージ\n{received_message}'
+    # reply = f'{display_name}さんのメッセージ\n{received_message}'
+    reply = event.message
 
 	## オウム返し
     line_bot_api.reply_message(ReplyMessageRequest(
