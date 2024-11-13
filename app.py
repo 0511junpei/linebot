@@ -74,10 +74,11 @@ def handle_image(event):
     line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
     message_id = event.message.id
     message_content = line_bot_api.get_message_content(message_id)
-    with open('file', 'w') as f:
-            for c in message_content.iter_content():
-                f.write(c)
-
+    app.logger.info("message_id=")
+    app.logger.info(message_id)
+    app.logger.info("message_content=")
+    app.logger.info(message_content)
+	
 @app.route('/', methods=['GET'])
 def toppage():
     return 'Hello World'
