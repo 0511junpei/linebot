@@ -61,7 +61,7 @@ def handle_message(event):
 
 	## 返信メッセージ編集
     # reply = f'{display_name}さんのメッセージ\n{received_message}'
-    reply = event.message
+    reply = received_image_id
 
 	## オウム返し
     line_bot_api.reply_message(ReplyMessageRequest(
