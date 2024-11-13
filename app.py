@@ -71,13 +71,16 @@ def handle_message(event):
 # 参考：https://qiita.com/tamago324/items/4df361fd6ac5b51a8a07
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image(event):
-    line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
+    with ApiClient(configuration) as api_client:
+        messaging_api = MessagingApi(api_client)
+        line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
     message_id = event.message.id
     message_content = line_bot_api.get_message_content(message_id)
-    app.logger.info("message_id=")
-    app.logger.info(message_id)
-    app.logger.info("message_content=")
-    app.logger.info(message_content)
+
+    messaging_api.reply_message(ReplyMessageRequest(
+		replyToken=event.reply_token,
+		messages=[TextMessage(text=message_id)]
+	))
 	
 @app.route('/', methods=['GET'])
 def toppage():
