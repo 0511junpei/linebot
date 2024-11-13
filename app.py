@@ -6,7 +6,7 @@ from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import (
 	ApiClient, Configuration, MessagingApi,
 	ReplyMessageRequest, PushMessageRequest,
-	TextMessage, PostbackAction
+	TextMessage, PostbackAction, ImageMessage, MessagingApiBlob
 )
 from linebot.v3.webhooks import (
 	FollowEvent, MessageEvent, PostbackEvent, TextMessageContent, ImageMessageContent
@@ -72,14 +72,15 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image(event):
     with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApiBlob(api_client)
         messaging_api = MessagingApi(api_client)
-        line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
     message_id = event.message.id
-    message_content = line_bot_api.get_message_content(message_id)
+    test = line_bot_api.get_message_content_with_http_info(message_id)
+    line_bot_api.get_message_content_preview(message_id)
 
     messaging_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
-		messages=[TextMessage(text=message_id)]
+		messages=[TextMessage(text=test)]
 	))
 	
 @app.route('/', methods=['GET'])
