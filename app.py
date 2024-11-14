@@ -7,8 +7,9 @@ from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import (
 	ApiClient, Configuration, MessagingApi,
 	ReplyMessageRequest, PushMessageRequest,
-	TextMessage, PostbackAction, ImageMessage, MessagingApiBlob
+	TextMessage, PostbackAction, ImageMessage
 )
+from linebot.models import (ImageSendMessage)
 from linebot.v3.webhooks import (
 	FollowEvent, MessageEvent, PostbackEvent, TextMessageContent, ImageMessageContent
 )
@@ -69,10 +70,6 @@ def handle_message(event):
 		messages=[TextMessage(text=reply)]
 	))
 
-SRC_IMAGE_PATH = "static/images/{}.jpg"
-MAIN_IMAGE_PATH = "static/images/{}_main.jpg"
-PREVIEW_IMAGE_PATH = "static/images/{}_preview.jpg"
-
 # 参考：https://qiita.com/tamago324/items/4df361fd6ac5b51a8a07
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image(event):
@@ -80,24 +77,18 @@ def handle_image(event):
         line_bot_api = LineBotApi(api_client)
     message_id = event.message.id
 
+    SRC_IMAGE_PATH = "static/images/{}.jpg"
     src_image_path = Path(SRC_IMAGE_PATH.format(message_id)).absolute()
-    main_image_path = MAIN_IMAGE_PATH.format(message_id)
-    preview_image_path = PREVIEW_IMAGE_PATH.format(message_id)
 
     # 画像を保存
     save_image(message_id, src_image_path)
 
-    # 画像の加工、保存
-    date_the_image(src=src_image_path, desc=Path(main_image_path).absolute())
-    date_the_image(src=src_image_path, desc=Path(preview_image_path).absolute())
-
     # 画像の送信
     image_message = ImageSendMessage(
-        original_content_url=f"https://date-the-image.herokuapp.com/{main_image_path}",
-        preview_image_url=f"https://date-the-image.herokuapp.com/{preview_image_path}",
+        original_content_url=f"https://poke-sle-bot.onrender.com/{src_image_path}",
+        preview_image_url=f"https://poke-sle-bot.onrender.com/{src_image_path}",
     )
 
-    app.logger.info(f"https://date-the-image.herokuapp.com/{main_image_path}")
     line_bot_api.reply_message(event.reply_token, image_message)
 
     # 画像を削除する
