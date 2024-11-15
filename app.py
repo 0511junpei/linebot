@@ -83,8 +83,6 @@ def handle_image(event):
 
     # 画像を保存
     save_image(message_id, src_image_path)
-    app.logger.info(src_image_path)
-    app.logger.info(f"https://poke-sle-bot.onrender.com/{src_image_path}")
 
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
@@ -98,8 +96,14 @@ def save_image(message_id: str, save_path: str) -> None:
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApiBlob(api_client)
     message_content = line_bot_api.get_message_content(message_id)
+    app.logger.info(f"message_content={len(message_content)}")
     with open(save_path, "wb") as f:
         f.write(message_content)
+
+    with open(save_path, "rb") as f:
+        read_data = bytearray(f.read())
+        app.logger.info(f"data={len(read_data)}")
+
 
 @app.route('/', methods=['GET'])
 def toppage():
