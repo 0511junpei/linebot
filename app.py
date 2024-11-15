@@ -90,7 +90,7 @@ def handle_image(event):
 	))
 
     # 画像を削除する
-    src_image_path.unlink()
+    #src_image_path.unlink()
 
 def save_image(message_id: str, save_path: str) -> None:
     with ApiClient(configuration) as api_client:
@@ -98,11 +98,6 @@ def save_image(message_id: str, save_path: str) -> None:
     message_content = line_bot_api.get_message_content(message_id)
     with open(save_path, "wb") as f:
         f.write(message_content)
-
-    app.logger.info(f"{save_path}")
-    files = os.listdir(save_path)
-    app.logger.info(f"{files}")
-
 
 @app.route('/', methods=['GET'])
 def toppage():
