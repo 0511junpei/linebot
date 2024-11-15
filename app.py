@@ -87,7 +87,7 @@ def handle_image(event):
 
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
-		messages=[ImageMessage(originalContentUrl=f"https://poke-sle-bot.onrender.com/{src_image_path}", previewImageUrl=f"https://poke-sle-bot.onrender.com/{src_image_path}")]
+		messages=[ImageMessage(originalContentUrl=f"{src_image_path}", previewImageUrl=f"{src_image_path}")]
 	))
 
     # 画像を削除する
