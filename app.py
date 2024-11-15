@@ -98,9 +98,9 @@ def save_image(message_id: str, save_path: str) -> None:
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApiBlob(api_client)
     message_content = line_bot_api.get_message_content(message_id)
-    with open(save_path, "wb") as f:
+    with open(save_path, "wb") as file:
         for chunk in message_content.iter_content():
-            f.write(chunk)
+            file.write(chunk)
 
 @app.route('/', methods=['GET'])
 def toppage():
