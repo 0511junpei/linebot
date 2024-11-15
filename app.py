@@ -82,11 +82,8 @@ def handle_image(event):
     # 画像を保存
     save_image(message_id, src_image_path)
 
-    # 画像の送信
-    image_message = ImageSendMessage(
-        original_content_url=f"https://poke-sle-bot.onrender.com/{src_image_path}",
-        preview_image_url=f"https://poke-sle-bot.onrender.com/{src_image_path}",
-    )
+    app.logger.info(src_image_path)
+    app.logger.info(f"https://poke-sle-bot.onrender.com/{src_image_path}")
 
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
