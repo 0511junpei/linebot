@@ -88,7 +88,10 @@ def handle_image(event):
         preview_image_url=f"https://poke-sle-bot.onrender.com/{src_image_path}",
     )
 
-    line_bot_api.reply_message(event.reply_token, image_message)
+    line_bot_api.reply_message(ReplyMessageRequest(
+		replyToken=event.reply_token,
+		messages=[ImageMessage(originalContentUrl=f"https://poke-sle-bot.onrender.com/{src_image_path}", previewImageUrl=f"https://poke-sle-bot.onrender.com/{src_image_path}")]
+	))
 
     # 画像を削除する
     src_image_path.unlink()
