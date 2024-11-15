@@ -2,12 +2,12 @@
 from pathlib import Path
 from flask import Flask, request, abort
 from linebot import  LineBotApi
-from linebot.v3 import  WebhookHandler
+from linebot.v3 import WebhookHandler
 from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import (
 	ApiClient, Configuration, MessagingApi,
 	ReplyMessageRequest, PushMessageRequest,
-	TextMessage, PostbackAction, ImageMessage
+	TextMessage, PostbackAction, ImageMessage, MessagingApiBlob
 )
 from linebot.models import (ImageSendMessage)
 from linebot.v3.webhooks import (
@@ -74,7 +74,7 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image(event):
     with ApiClient(configuration) as api_client:
-        line_bot_api = LineBotApi(api_client)
+        line_bot_api = MessagingApi(api_client)
     message_id = event.message.id
 
     SRC_IMAGE_PATH = "static/images/{}.jpg"
@@ -96,7 +96,7 @@ def handle_image(event):
 
 def save_image(message_id: str, save_path: str) -> None:
     with ApiClient(configuration) as api_client:
-        line_bot_api = LineBotApi(api_client)
+        line_bot_api = MessagingApiBlob(api_client)
     """保存"""
     message_content = line_bot_api.get_message_content(message_id)
     with open(save_path, "wb") as f:
