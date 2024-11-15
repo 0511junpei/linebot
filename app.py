@@ -1,4 +1,5 @@
 # 参考：https://qiita.com/nozomiyamada/items/87389aacb151b8418501
+import logging
 from pathlib import Path
 from flask import Flask, request, abort
 from linebot.v3 import WebhookHandler
@@ -15,6 +16,7 @@ from linebot.v3.webhooks import (
 from dotenv import load_dotenv
 import os
 
+logging.basicConfig(level=logging.INFO)
 load_dotenv()
 
 CHANNEL_ACCESS_TOKEN=os.environ["CHANNEL_ACCESS_TOKEN"]
@@ -81,7 +83,7 @@ def handle_image(event):
 
     # 画像を保存
     save_image(message_id, src_image_path)
-
+    app.logger.info(f"https://poke-sle-bot.onrender.com/{src_image_path}")
     app.logger.info(src_image_path)
     app.logger.info(f"https://poke-sle-bot.onrender.com/{src_image_path}")
 
