@@ -14,6 +14,7 @@ from linebot.v3.webhooks import (
 	FollowEvent, MessageEvent, PostbackEvent, TextMessageContent, ImageMessageContent
 )
 from dotenv import load_dotenv
+import scrape as sc
 import os
 
 logging.basicConfig(level=logging.INFO)
@@ -77,6 +78,8 @@ def handle_image(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
     message_id = event.message.id
+
+    sc.scrape()
 
     SRC_IMAGE_PATH = "static/images/{}.jpg"
     src_image_path = Path(SRC_IMAGE_PATH.format(message_id)).absolute()
