@@ -28,6 +28,7 @@ def get_rename_file_name(dl_dir, file_name, extension):
 
 def initializeOption(dl_dir):
     options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
     options.add_experimental_option("prefs", {
         "download.default_directory": dl_dir
     })
