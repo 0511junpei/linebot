@@ -80,7 +80,7 @@ def handle_image(event):
     message_id = event.message.id
 
     app.logger.info("スクレイピング開始")
-    result = sc.scrape()
+    result = sc.scrape(app)
     app.logger.info("スクレイピング終了" + result)
 
     SRC_IMAGE_PATH = "static/images/{}.jpg"
