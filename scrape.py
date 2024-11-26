@@ -22,7 +22,8 @@ def get_rename_file_name(dl_dir, file_name, extension):
     full_path = get_file_path(dl_dir, file_name, extension)
     t = os.path.getmtime(full_path)
     dt = datetime.datetime.fromtimestamp(t)
-    return f"{dl_dir}\\{file_name}{dt.strftime("%Y%m%d%H%M%S")}{extension}"
+    #return f"{dl_dir}\\{file_name}{dt.strftime("%Y%m%d%H%M%S")}{extension}"
+    return f"{dl_dir}\\{file_name}{dt.strftime("%H%M%S")}{extension}"
 
 
 def initializeOption(dl_dir):
