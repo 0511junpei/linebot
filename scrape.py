@@ -29,28 +29,35 @@ def get_rename_file_name(dl_dir, file_name, extension):
 def initializeOption(dl_dir):
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
+    options.add_argument("--disable-dev-shm-usage")   
     options.add_experimental_option("prefs", {
         "download.default_directory": dl_dir
     })
     return options
 
-def scrape():
+def scrape(app):
     pokemon_name = "フシギダネ"
     subskill1 = "食材確率アップM"
     subskill2 = "食材確率アップS"
     subskill3 = "おてつだいボーナス"
     personality = "れいせい"
 
+    app.logger.info("downloadディレクトリ構築開始")
     dl_dir = get_download_dir()
-
+    app.logger.info(f"downloadディレクトリ構築完了：{dl_dir}")
+    app.logger.info("オプション初期設定開始")
     driver = webdriver.Chrome(options=initializeOption(dl_dir))
-    driver.implicitly_wait(3)
+    app.logger.info("オプション初期設定完了")
+    time.sleep(3)
+    app.logger.info("URL接続開始")
     driver.get("https://www.pokemonsleepdaifuku.com/checker/")
+    app.logger.info("URL接続完了")
     time.sleep(5)
     
     # ポケモン名
     scroll(driver, "/html/body/main/article/div/form/div[4]")
-    print("ポケモン名入力")
+    #print("ポケモン名入力")
+    app.logger.info("ポケモン名入力")
     setPullDown(driver, xpath="/html/body/main/article/div/form/div[1]/div[2]/div[1]/div/span/span[1]/span/span[1]", value=pokemon_name)
 
     # レベル
