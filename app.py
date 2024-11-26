@@ -79,7 +79,9 @@ def handle_image(event):
         line_bot_api = MessagingApi(api_client)
     message_id = event.message.id
 
-    sc.scrape()
+    app.logger.info("スクレイピング開始")
+    result = sc.scrape()
+    app.logger.info("スクレイピング終了" + result)
 
     SRC_IMAGE_PATH = "static/images/{}.jpg"
     src_image_path = Path(SRC_IMAGE_PATH.format(message_id)).absolute()
