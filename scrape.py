@@ -28,9 +28,10 @@ def get_rename_file_name(dl_dir, file_name, extension):
 
 def initializeOption(dl_dir):
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
-    options.add_argument("--disable-dev-shm-usage")   
-    options.add_argument("--in-process-gpu") 
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
     options.add_experimental_option("prefs", {
         "download.default_directory": dl_dir
     })
