@@ -30,6 +30,7 @@ def initializeOption(dl_dir):
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     options.add_argument("--disable-dev-shm-usage")   
+    options.add_argument("--in-process-gpu") 
     options.add_experimental_option("prefs", {
         "download.default_directory": dl_dir
     })
