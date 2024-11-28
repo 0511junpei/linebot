@@ -45,6 +45,9 @@ def scrape(app):
     subskill3 = "おてつだいボーナス"
     personality = "れいせい"
 
+    for proc in psutil.process_iter():
+        app.logger.info(proc.name())
+
     app.logger.info("downloadディレクトリ構築開始")
     dl_dir = get_download_dir()
     app.logger.info(f"downloadディレクトリ構築完了：{dl_dir}")
@@ -118,9 +121,6 @@ def scrape(app):
             }
     except Exception as e:
         app.logger.info(e)
-
-    for proc in psutil.process_iter():
-        app.logger.info(proc.name())
 
 def scroll(driver, xpath):
     element = driver.find_element(By.XPATH, xpath)
