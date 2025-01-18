@@ -87,10 +87,24 @@ def handle_image(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
 
+    message_id = event.message.id
+    SRC_IMAGE_PATH = "static/images/{}.jpg"
+    src_image_path = Path(SRC_IMAGE_PATH.format(message_id)).absolute()
+	
+    genai.configure(api_key=GEMINI_API_KEY)
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    organ = PIL.Image.open(src_image_path)
+    response = model.generate_content(["個体値チェックをして", organ])
+
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
-		messages=[TextMessage(text="test")]
-	))
+		messages=[TextMessage(text="個体値チェックをします")]
+    ))
+
+    line_bot_api.reply_message(ReplyMessageRequest(
+		replyToken=event.reply_token,
+		messages=[TextMessage(text=response.text)]
+    ))
 
 @app.route('/', methods=['GET'])
 def toppage():
