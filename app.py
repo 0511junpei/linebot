@@ -71,9 +71,7 @@ def handle_message(event):
 
     genai.configure(api_key=GEMINI_API_KEY)
     model = genai.GenerativeModel("gemini-1.5-flash")
-    #organ = PIL.Image.open("/path/to/organ.png")
-    #response = model.generate_content(["Tell me about this instrument", organ])
-    response = model.generate_content("今日のトレンドを教えて")
+    response = model.generate_content({received_message})
 
     ## オウム返し
     line_bot_api.reply_message(ReplyMessageRequest(
