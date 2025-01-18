@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 import os
 
 import google.generativeai as genai
+import PIL.Image
 
 logging.basicConfig(level=logging.INFO)
 load_dotenv()
