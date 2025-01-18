@@ -100,11 +100,6 @@ def handle_image(event):
 
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
-		messages=[TextMessage(text="個体値チェックをします")]
-    ))
-
-    line_bot_api.reply_message(ReplyMessageRequest(
-		replyToken=event.reply_token,
 		messages=[TextMessage(text=response.text)]
     ))
 
