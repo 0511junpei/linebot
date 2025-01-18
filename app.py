@@ -16,6 +16,8 @@ from linebot.v3.webhooks import (
 from dotenv import load_dotenv
 import os
 
+import google.generativeai as genai
+
 logging.basicConfig(level=logging.INFO)
 load_dotenv()
 
@@ -59,17 +61,23 @@ def handle_message(event):
     
     received_message = event.message.text
 
-	## APIを呼んで送信者のプロフィール取得
+    ## APIを呼んで送信者のプロフィール取得
     profile = line_bot_api.get_profile(event.source.user_id)
     display_name = profile.display_name
 
-	## 返信メッセージ編集
+    ## 返信メッセージ編集
     reply = f'{display_name}さんのメッセージ\n{received_message}'
 
-	## オウム返し
+    genai.configure(api_key="GEMINI_API_KEY")
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    #organ = PIL.Image.open("/path/to/organ.png")
+    #response = model.generate_content(["Tell me about this instrument", organ])
+    response = model.generate_content(["今日のトレンドを教えて"])
+
+    ## オウム返し
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
-		messages=[TextMessage(text=reply)]
+		messages=[TextMessage(text=response.text)]
 	))
 
 # 参考：https://qiita.com/tamago324/items/4df361fd6ac5b51a8a07
