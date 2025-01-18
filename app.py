@@ -68,7 +68,7 @@ def handle_message(event):
     ## 返信メッセージ編集
     reply = f'{display_name}さんのメッセージ\n{received_message}'
 
-    genai.configure(api_key="GEMINI_API_KEY")
+    genai.configure(api_key=GEMINI_API_KEY)
     model = genai.GenerativeModel("gemini-1.5-flash")
     #organ = PIL.Image.open("/path/to/organ.png")
     #response = model.generate_content(["Tell me about this instrument", organ])
