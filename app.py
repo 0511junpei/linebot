@@ -94,7 +94,7 @@ def handle_image(event):
     genai.configure(api_key=GEMINI_API_KEY)
     model = genai.GenerativeModel("gemini-1.5-pro")
     organ = PIL.Image.open(src_image_path)
-    response = model.generate_content(["キャプチャはポケモンスリープの画像です。個体値を調べた結果を教えて", organ])
+    response = model.generate_content(["個体値を調べて", organ])
 
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
