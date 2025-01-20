@@ -31,6 +31,9 @@ app = Flask(__name__)
 configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
 
+genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel("gemini-1.5-pro")
+
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -60,20 +63,17 @@ def handle_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
     
-    received_message = event.message.text
+    #received_message = event.message.text
 
     ## APIを呼んで送信者のプロフィール取得
-    profile = line_bot_api.get_profile(event.source.user_id)
-    display_name = profile.display_name
+    #profile = line_bot_api.get_profile(event.source.user_id)
+    #display_name = profile.display_name
 
     ## 返信メッセージ編集
-    reply = f'{display_name}さんのメッセージ\n{received_message}'
+    #reply = f'{display_name}さんのメッセージ\n{received_message}'
 
-    genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content({received_message})
 
-    ## オウム返し
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
 		messages=[TextMessage(text=response.text)]
@@ -91,8 +91,6 @@ def handle_image(event):
     # 画像を保存
     save_image(message_id, src_image_path)
 	
-    genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel("gemini-1.5-pro")
     organ = PIL.Image.open(src_image_path)
     response = model.generate_content(["個体値を調べて", organ])
 
