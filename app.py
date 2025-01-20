@@ -72,7 +72,7 @@ def handle_message(event):
     ## 返信メッセージ編集
     #reply = f'{display_name}さんのメッセージ\n{received_message}'
 
-    response = model.generate_content({received_message})
+    response = model.generate_content(event.message.text)
 
     line_bot_api.reply_message(ReplyMessageRequest(
 		replyToken=event.reply_token,
