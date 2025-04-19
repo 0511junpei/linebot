@@ -76,7 +76,6 @@ export const RecordList: FC<RecordListProps> = memo(
           overflowY="scroll"
           pb="xs"
           px="xs"
-          ｐ
         >
           {records.map((record) => {
             const { date, docsId } = record;
